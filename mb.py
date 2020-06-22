@@ -12,21 +12,46 @@ api = Api(app=app, version='0.1', title='Books Api', description='', validate=Tr
 @app.route("/")
 def index(): 
     return "Hello World!"
+
+@app.route("/getAnalysis", methods = ['GET','POST'])
+def getAnalysis():
+        req_data = request.get_json()
+        word = req_data['word']
+        print(word)
+        Analword = Word_Sentiment_Tweets(word)
+        data = []
+        St = []
+        data, St, rp , rn = Analword.get_Sentiment()
+        return {"data" : data,
+        "Sentiment" : St,
+        "resp": rp,
+           "resn": rn}
+           
+
       
-@api.route("/books/")
+@api.route("/analysis/")
 class BooksList(Resource):
     def get(self):
         """
         returns a list of books
         """
-        word = Word_Sentiment_Tweets("trump")
+        req_data = request.json(force = True)
+        if not req_dataata:
+            data1 = {"responsgjhge": "ERROR"}
+            return data1, 404
+        #else :
+        word = req_data['word']
+        Analword = Word_Sentiment_Tweets("violence")
         data = []
         St = []
-        data, St, rp , rn = word.get_Sentiment()
-        return [{"data" : data,
-        "Sentiment" : St,
-        "resp": rp,
-            "resn": rn}]
+        data, St, rp , rn = Analword.get_Sentiment()
+        return "Hello"
+        #return {"data" : data,
+        #"Sentiment" : St,
+        #"resp": rp,
+        #"resn": rn}
+            #return [{"resp": str(rp),
+            #"resn": str(rn)}]
 
     def post(self):
         """
@@ -37,12 +62,9 @@ class BooksList(Resource):
             data = {"response": "ERROR"}
             return data, 404
         else:
-            title = data.get('title')
-            word = Word_Sentiment_Tweets("trump")
-            rp , rn = word.get_Sentiment()
-            return {"rp": rp,
-            "rn": rn}
-
+            wordkey = data.get('data')
+            if wordkey:
+                get(wordkey)
 @app.route("/wordd")
 def indexx(): 
     word = Word_Sentiment_Tweets("trump")
