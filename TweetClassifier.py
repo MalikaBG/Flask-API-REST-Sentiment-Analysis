@@ -77,7 +77,8 @@ class Word_Sentiment_Tweets:
                     ls.append(Sent[0])
                     Tw.append(row[2])
         
-
+        respp =0
+        resnn = 0
         pos = 0
         neg = 0
         for i in range(0,len(ls)):
@@ -85,8 +86,13 @@ class Word_Sentiment_Tweets:
                neg+=1
            if ls[i] == 'POSITIVE':
                pos+=1
-        
-        resp = pos / len(ls)
-        resn = neg / len(ls)
+        if len(ls)>0 :
+            respp = (pos / len(ls))*100
+            resnn = (neg / len(ls))*100
+            resp = round(respp, 2)
+            resn = round(resnn, 2)
+
+        #print(resp)
+        #print(resn)
         return Tw, ls,resp, resn
 
